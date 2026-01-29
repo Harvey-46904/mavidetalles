@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use Wave\Facades\Wave;
+use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\FinanzasController;
 
 // Authentication routes
 Auth::routes();
@@ -22,7 +24,13 @@ Auth::routes();
 // Voyager Admin routes
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+     Route::get('finanzas',[FinanzasController::class, 'finanzas' ] )->name("IndexFinanzas");
 });
+Route::get('/admin/clientesuni/{id}', function ($id) {
+    return \App\Models\clientes::select('nombres', 'telefono')->findOrFail($id);
+});
+
+Route::get('/admin/pedidos/{pedido}/factura', [FacturaController::class, 'generarFactura'])->name('pedidos.factura');
 
 // Wave routes
 Wave::routes();

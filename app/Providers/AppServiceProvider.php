@@ -5,7 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\Pedido;
+use App\Observers\PedidoObserver;
+use \App\Actions\Factura;
+use TCG\Voyager\Facades\Voyager;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Pedido::observe(PedidoObserver::class);
+        Voyager::addAction(Factura::class);
+        
         if ($this->app->environment() == 'production') {
             $this->app['request']->server->set('HTTPS', true);
         }
