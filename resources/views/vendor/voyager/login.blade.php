@@ -34,25 +34,25 @@
                             <img class="w-10 h-auto" src="{{ Voyager::image($admin_logo_img) }}" alt="Logo Icon">
                         @endif
                         <div class="flex flex-col justify-center w-auto h-full">
-                            <p>Sign in to your account below</p>
-                            <p class="text-xs font-normal">Welcome to your administration login</p>
+                            <p>Mavi Detalles</p>
+                            <p class="text-xs font-normal">Bienvenido</p>
                         </div>
                     </div>
                     <div class="p-8">
                         <form action="{{ route('voyager.login') }}" method="POST">
                             {{ csrf_field() }}
                             <div class="mb-6">
-                                <label for="email" class="block mb-2 text-sm text-gray-600">Email Address</label>
+                                <label for="email" class="block mb-2 text-sm text-gray-600">Correo</label>
                                 <input type="email" value="{{ old('email') }}" name="email" id="email" placeholder="johndoe@email.com" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 focus:border-blue-500" />
                             </div>
                             <div class="mb-6">
-                                <label for="password" class="block mb-2 text-sm text-gray-600">Password</label>
+                                <label for="password" class="block mb-2 text-sm text-gray-600">Contraseña</label>
                                 <input type="password" name="password" id="password" placeholder="password" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50 focus:border-blue-500" />
                             </div>
                             <div class="mb-6">
                                 <button type="submit" class="w-full px-3 py-3 text-white bg-blue-500 rounded-md focus:bg-blue-600 focus:outline-none">Login</button>
                             </div>
-                            <p class="text-sm text-center text-gray-400">Don&#x27;t have an account yet? <a href="{{ url()->route('register') }}" class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500">Sign up</a>.</p>
+                          <!--   <p class="text-sm text-center text-gray-400">Don&#x27;t have an account yet? <a href="{{ url()->route('register') }}" class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500">Sign up</a>.</p>-->
                         </form>
                     </div>
                 </div>

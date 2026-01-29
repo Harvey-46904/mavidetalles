@@ -13,3 +13,8 @@
 .voyager .side-menu.sidebar-inverse .navbar li>a {
     color: #656565;
 }
+.voyager .side-menu.sidebar-inverse .navbar li.active>a {
+    background: none;
+    border-left: 0;
+    color: #221d1d;
+}

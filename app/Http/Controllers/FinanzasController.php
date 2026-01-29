@@ -27,6 +27,16 @@ class FinanzasController extends Controller
                 'total_domicilios' => $totalDomicilios,
                 'ganancias_30'     => $totalVentas * 0.30,
                 'numero_ventas'    => $numeroVentas,
+                'metodo'           => [
+                    'Efectivo'      => [
+                        'cantidad' => $pedidos->where('metodo_pago', 'Efectivo')->count(),
+                        //'total'    => $pedidos->where('metodo_pago', 'Efectivo')->sum('total'),
+                    ],
+                    'Transferencia' => [
+                        'cantidad' => $pedidos->where('metodo_pago', 'Transferencia')->count(),
+                        //'total'    => $pedidos->where('metodo_pago', 'Transferencia')->sum('total'),
+                    ],
+                ],
             ];
 
             $informacion_estadistica = "Estadísticas desde {$request->start_date} hasta {$request->end_date}";

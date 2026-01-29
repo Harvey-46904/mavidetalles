@@ -468,7 +468,7 @@ $('.form-edit-add').on('submit', function () {
 
     //$('#detalles_json').val(JSON.stringify(detalles));
     $('input[name="detalles"]').val(JSON.stringify(detalles));
-    alert("send data")
+   // alert("send data")
     // opcional: setear total directo
     $('input[name="total"]').val(total);
    
