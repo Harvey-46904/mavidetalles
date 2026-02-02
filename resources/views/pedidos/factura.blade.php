@@ -183,6 +183,16 @@
             <p class="total">
                 TOTAL: ${{ number_format($pedido->total, 0, ',', '.') }}
             </p>
+            @if ($pedido->total!=$pedido->paga_cliente)
+                 <p class="total">
+                ABONOS: ${{ number_format($pedido->paga_cliente, 0, ',', '.') }}
+            </p>
+             <p class="total">
+                SALDOS: ${{ number_format($pedido->total-$pedido->paga_cliente, 0, ',', '.') }}
+            </p>
+            @endif
+            
+
         </div>
 
         <!-- FOOTER -->

@@ -20,7 +20,13 @@
 
     </form>
     @if ($estadistica)
+   
     <div class="container-fluid">
+        <div class="row">
+ <a href="{{ route('finanzas.pdf', request()->all()) }}" class="btn btn-danger pull-right" target="_blank">
+        <i class="fa fa-file-pdf-o"></i> Descargar PDF
+    </a>
+        </div>
         <div class="row">
 
             <div class="col-xs-12 col-sm-6 col-md-3">
@@ -60,7 +66,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-6 col-md-3">
-                <div class="panel panel-warning text-center">
+                <div class="panel panel-danger text-center">
                     <div class="panel-body">
                         <i class="fa fa-shopping-cart fa-2x text-warning"></i>
                         <h5># Ventas</h5>
@@ -70,15 +76,15 @@
                         <div class="row">
                             <div class="col-md-6 col-6">
                                 <h5>Transferencias</h5>
-                                 <strong>
-                            {{ $estadistica['metodo']['Transferencia']['cantidad'] }}
-                        </strong>
+                                <strong>
+                                    {{ $estadistica['metodo']['Transferencia']['cantidad'] }}
+                                </strong>
                             </div>
                             <div class="col-md-6 col-6">
                                 <h5>Efectivo</h5>
-                                 <strong>
-                            {{ $estadistica['metodo']['Efectivo']['cantidad'] }}
-                        </strong>
+                                <strong>
+                                    {{ $estadistica['metodo']['Efectivo']['cantidad'] }}
+                                </strong>
                             </div>
                         </div>
                     </div>

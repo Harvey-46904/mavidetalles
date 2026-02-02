@@ -22,6 +22,41 @@ $add = is_null($dataTypeContent->getKey());
 @stop
 
 @section('content')
+<style>
+    @media (max-width: 768px) {
+        #tabla-detalles thead {
+            display: none;
+        }
+
+        #tabla-detalles tr {
+            display: block;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        #tabla-detalles td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            padding: 6px 0;
+        }
+
+        #tabla-detalles td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        #tabla-detalles input {
+            width: 60%;
+        }
+    }
+</style>
 <div class="page-content edit-add container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -50,6 +85,9 @@ $add = is_null($dataTypeContent->getKey());
                             </ul>
                         </div>
                         @endif
+
+                      
+
 
                         <!-- Adding / Editing -->
                         @php
@@ -104,98 +142,135 @@ $add = is_null($dataTypeContent->getKey());
                             @endif
                         </div>
                         @endforeach
-{{-- CAMPOS EXTRA CLIENTE --}}
+                        {{-- CAMPOS EXTRA CLIENTE --}}
 
 
-<input type="text" class="form-control" name="detalles" placeholder="Detalles" value="">
-<div id="cliente-info" class="form-group col-md-12" style="display:none">
-    <div class="row">
-        <div class="col-md-6">
-<label>Nombre del cliente</label>
-    <input type="text" class="form-control" id="cliente_nombre" readonly>
-        </div>
-        <div class="col-md-6">
-<label>Celular</label>
-    <input type="text" class="form-control" id="cliente_celular" readonly>
-        </div>
-    </div>
+                        <input type="text" class="form-control" name="detalles" placeholder="Detalles" value="">
+                        <div id="cliente-info" class="form-group col-md-12" style="display:none">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Nombre del cliente</label>
+                                    <input type="text" class="form-control" id="cliente_nombre" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Celular</label>
+                                    <input type="text" class="form-control" id="cliente_celular" readonly>
+                                </div>
+                            </div>
 
-</div>
+                        </div>
 
 
-   @if (isset($dataTypeContent))
-    @php
-    $detalles = isset($dataTypeContent) 
-        ? $dataTypeContent->getRawOriginal('detalles') 
-        : [];
-    // Decodificar JSON si viene como string
-    if (is_string($detalles)) {
-        $detalles = json_decode($detalles, true);
-    }
-@endphp
+                        @if (isset($dataTypeContent))
+                        @php
+                        $detalles = isset($dataTypeContent)
+                        ? $dataTypeContent->getRawOriginal('detalles')
+                        : [];
+                        // Decodificar JSON si viene como string
+                        if (is_string($detalles)) {
+                        $detalles = json_decode($detalles, true);
+                        }
+                        @endphp
 
-@endif
+                        @endif
 
-@if (isset($detalles))
+                        @if (isset($detalles))
 
-<input type="hidden" name="detalles" id="detalles_json" 
-       value='{{ json_encode($detalles, JSON_UNESCAPED_UNICODE) }}'>
-    <div class="form-group col-md-12">
-    <label><strong>Detalles del pedido actualizados</strong></label>
+                        <input type="hidden" name="detalles" id="detalles_json"
+                            value='{{ json_encode($detalles, JSON_UNESCAPED_UNICODE) }}'>
+                        <div class="form-group col-md-12">
+                            <label><strong>Detalles del pedido actualizados</strong></label>
 
-    <table class="table table-bordered" id="tabla-detalles">
-        <thead>
-            <tr>
-                <th>Detalle</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>@foreach($detalles as $item)
-                   <tr>
-        <td>
-            <input type="text" class="form-control detalle" value="{{ $item['detalle'] }}" required>
-        </td>
-        <td>
-            <input type="number" class="form-control precio" value="{{ $item['precio'] }}" min="0" required>
-        </td>
-        <td>
-            <input type="number" class="form-control cantidad" value="{{ $item['cantidad'] }}" min="1" value="1" required>
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger btn-sm remove-detalle">X</button>
-        </td>
-    </tr>
-                @endforeach</tbody>
-    </table>
+                            <table class="table table-bordered" id="tabla-detalles">
+                                <thead>
+                                    <tr>
+                                        <th>Detalle</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>@foreach($detalles as $item)
 
-    <button type="button" class="btn btn-success" id="add-detalle">
-        + Agregar detalle
-    </button>
-</div>
-@else
-<input type="hidden" name="detalles" id="detalles_json">
-    <div class="form-group col-md-12">
-    <label><strong>Detalles del pedido</strong></label>
+                                    <tr class="detalle-row">
+                                        <td data-label="Detalle">
+                                            <input type="text" value="{{ $item['detalle'] }}" class="form-control form-control-sm detalle" required>
+                                        </td>
 
-    <table class="table table-bordered" id="tabla-detalles">
-        <thead>
-            <tr>
-                <th>Detalle</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+                                        <td data-label="Precio">
+                                            <input type="number" class="form-control form-control-sm precio" min="0"
+                                               value="{{ $item['precio'] }}"  required>
+                                        </td>
 
-    <button type="button" class="btn btn-success" id="add-detalle">
-        + Agregar detalle
-    </button>
-</div>
-@endif
+                                        <td data-label="Cantidad">
+                                            <input type="number" class="form-control form-control-sm cantidad" min="1"
+                                              value="{{ $item['cantidad'] }}"  value="1" required>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <button type="button"
+                                                class="btn btn-danger btn-sm remove-detalle">✕</button>
+                                        </td>
+                                    </tr>
+
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                            <button type="button" class="btn btn-success" id="add-detalle">
+                                + Agregar detalle
+                            </button>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label><strong>Precio Total</strong> <b class="precio_total">
+                                    {{$dataTypeContent->getRawOriginal('total')}}$</b></label><br><br>
+                            <label>
+                                <strong>Saldo:</strong>
+                                <b class="saldoupdate"> {{$dataTypeContent->getRawOriginal('total') -
+                                    $dataTypeContent->getRawOriginal('paga_cliente') }} $</b>
+                            </label>
+                        </div>
+                        @else
+                        <input type="hidden" name="detalles" id="detalles_json">
+                        <div class="form-group col-md-12">
+                            <label><strong>Detalles del pedido</strong></label>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="tabla-detalles">
+                                    <thead>
+                                        <tr>
+                                            <th>Detalle</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                            <button type="button" class="btn btn-success" id="add-detalle">
+                                + Agregar detalle
+                            </button>
+                        </div>
+                        <div class="col-md-12">
+                            <label>
+                                <strong>Precio Total:</strong>
+                                <b class="precio_total">0$</b>
+                            </label><br>
+
+                            <label>
+                                <strong>Estado:</strong>
+                                <b class="estado_pago">Pendiente</b>
+                            </label><br>
+
+                            <label>
+                                <strong>Saldo:</strong>
+                                <b class="saldo">0$</b>
+                            </label>
+                        </div>
+                        @endif
 
 
 
@@ -322,7 +397,7 @@ $add = is_null($dataTypeContent->getKey());
 
 @push('javascript')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     // RichText de Voyager
     const rich = document.querySelector('textarea[name="detalles"]');
 
@@ -334,7 +409,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script>
-    //$('input[name="detalles"]').hide();
+    $(document).ready(function () {
+    $('input[name="paga_cliente"]').val(0);
+});
+    $('input[name="detalles"]').hide();
     function toggleCampos() {
 
     const domicilio = document.querySelector('input[name="domicilio"].toggleswitch');
@@ -367,7 +445,7 @@ $(document).on(
 );
 </script>
 <script>
-function setFechaCompraHoy() {
+    function setFechaCompraHoy() {
     const input = document.querySelector('input[name="fecha_compra"]');
     if (!input || input.value) return;
 
@@ -387,7 +465,7 @@ function setFechaCompraHoy() {
 setTimeout(setFechaCompraHoy, 200);
 </script>
 <script>
-     $('#cliente-info').hide();
+    $('#cliente-info').hide();
     $(document).on('select2:select', 'select[name="cliente_id"]', function (e) {
        
         
@@ -416,24 +494,40 @@ setTimeout(setFechaCompraHoy, 200);
 });
 </script>
 <script>
-let index = 0;
+$(function () {
+    $('#es_cliente').change(function () {
+        if ($(this).prop('checked')) {
+            // Es cliente
+            $('#cliente-info').slideUp();
+        } else {
+            // No es cliente
+            $('#cliente-info').slideDown();
+        }
+    });
+});
+</script>
+<script>
+    let index = 0;
 
 $('#add-detalle').on('click', function () {
-    const row = `
-    <tr>
-        <td>
-            <input type="text" class="form-control detalle" required>
-        </td>
-        <td>
-            <input type="number" class="form-control precio" min="0" required>
-        </td>
-        <td>
-            <input type="number" class="form-control cantidad" min="1" value="1" required>
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger btn-sm remove-detalle">X</button>
-        </td>
-    </tr>`;
+   const row = `
+<tr class="detalle-row">
+    <td data-label="Detalle">
+        <input type="text" class="form-control form-control-sm detalle" required>
+    </td>
+
+    <td data-label="Precio">
+        <input type="number" class="form-control form-control-sm precio" min="0" required>
+    </td>
+
+    <td data-label="Cantidad">
+        <input type="number" class="form-control form-control-sm cantidad" min="1" value="1" required>
+    </td>
+
+    <td class="text-center">
+        <button type="button" class="btn btn-danger btn-sm remove-detalle">✕</button>
+    </td>
+</tr>`;
     $('#tabla-detalles tbody').append(row);
 });
 
@@ -442,7 +536,65 @@ $(document).on('click', '.remove-detalle', function () {
 });
 </script>
 <script>
-$('.form-edit-add').on('submit', function () {
+    function calcularTotal() {
+    let total = 0;
+
+    // Total de detalles
+    $('#tabla-detalles tbody tr').each(function () {
+        const precio = parseFloat($(this).find('.precio').val()) || 0;
+        const cantidad = parseInt($(this).find('.cantidad').val()) || 0;
+        total += precio * cantidad;
+    });
+
+    // Domicilio si aplica
+    const tieneDomicilio = $('input[name="domicilio"]').is(':checked');
+    if (tieneDomicilio) {
+        const costoDomicilio = parseFloat(
+            $('input[name="costo_domicilio"]').val()
+        ) || 0;
+        total += costoDomicilio;
+    }
+
+    // Abono del cliente
+    let pagaCliente = parseFloat(
+        $('input[name="paga_cliente"]').val()
+    ) || 0;
+
+    if (pagaCliente < 0) pagaCliente = 0;
+    if (pagaCliente > total) pagaCliente = total;
+
+    $('input[name="paga_cliente"]').val(pagaCliente);
+
+    const saldo = total - pagaCliente;
+
+    // UI
+    $('.precio_total').text(total.toLocaleString('es-CO') + '$');
+    $('.saldo').text(saldo.toLocaleString('es-CO') + '$');
+
+    // Estado
+    let estado = 'Pendiente';
+    if (pagaCliente === total && total > 0) {
+        estado = 'Cancelado';
+    } else if (pagaCliente > 0) {
+        estado = `Abona ${pagaCliente.toLocaleString('es-CO')}$ y debe ${saldo.toLocaleString('es-CO')}$`;
+    }
+
+    $('.estado_pago').text(estado);
+}
+
+// Eventos
+$(document).on('input', '.precio, .cantidad', calcularTotal);
+$(document).on('input', 'input[name="costo_domicilio"]', calcularTotal);
+$(document).on('change', 'input[name="domicilio"]', calcularTotal);
+$(document).on('input', 'input[name="paga_cliente"]', calcularTotal);
+
+$(document).on('click', '.remove-detalle', function () {
+    $(this).closest('tr').remove();
+    calcularTotal();
+});
+</script>
+<script>
+    $('.form-edit-add').on('submit', function () {
     
     let detalles = [];
     let total = 0;

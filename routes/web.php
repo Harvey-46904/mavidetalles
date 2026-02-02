@@ -31,6 +31,9 @@ Route::get('/admin/clientesuni/{id}', function ($id) {
 });
 
 Route::get('/admin/pedidos/{pedido}/factura', [FacturaController::class, 'generarFactura'])->name('pedidos.factura');
+//Route::get('/admin/pedidos/{pedido}/estadistica', [FacturaController::class, 'descargarEstadistica'])->name('pedidos.estadistica');
 
+Route::get('/admin/finanzas/pdf', [FinanzasController::class, 'finanzasPdf'])
+    ->name('finanzas.pdf');
 // Wave routes
 Wave::routes();
