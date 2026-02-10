@@ -19,4 +19,8 @@ class FacturaController extends Controller
 
         return $pdf->download('factura_' . $pedido->id . '.pdf');
     }
+
+    public function descargarEstadistica(Pedido $pedido){
+        
+    }
 }

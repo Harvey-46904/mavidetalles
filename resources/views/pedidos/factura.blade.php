@@ -73,14 +73,9 @@
             text-align: right;
         }
 
-        .resumen {
-            margin-top: 20px;
-            text-align: right;
-        }
+        
 
-        .resumen p {
-            margin: 4px 0;
-        }
+        
 
         .total {
             font-size: 16px;
@@ -89,16 +84,17 @@
         }
 
         @page {
-    margin-bottom: 120px; /* espacio para el footer */
-}
+            margin-bottom: 120px;
+            /* espacio para el footer */
+        }
 
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-}
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -108,28 +104,29 @@
         <!-- HEADER -->
         <div class="header">
             <table width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:20px;">
-    <tr>
-        <!-- COLUMNA 1: LOGO -->
-        <td width="30%" valign="top">
-            <img src="{{ public_path('storage/' . setting('admin.icon_image')) }}" style="width:120px;">
+                <tr>
+                    <!-- COLUMNA 1: LOGO -->
+                    <td width="30%" valign="top">
+                        <img src="{{ public_path('storage/' . setting('admin.icon_image')) }}" style="width:120px;">
 
-        </td>
+                    </td>
 
-        <!-- COLUMNA 2: DATOS PEDIDO -->
-        <td width="40%" valign="top" align="center">
-            <h2 style="margin:0;color:#b57a7a;">PEDIDO</h2>
-            <p style="margin:4px 0;">N°: {{ str_pad($pedido->id, 6, '0', STR_PAD_LEFT) }}</p>
-            <p style="margin:4px 0;">
-                {{ $pedido->created_at->format('d \\d\\e F Y') }}
-            </p>
-        </td>
+                    <!-- COLUMNA 2: DATOS PEDIDO -->
+                    <td width="40%" valign="top" align="center">
+                        <h2 style="margin:0;color:#b57a7a;">PEDIDO</h2>
+                        <p style="margin:4px 0;">N°: {{ str_pad($pedido->id, 6, '0', STR_PAD_LEFT) }}</p>
+                        <p style="margin:4px 0;">
+                            {{ $pedido->created_at->translatedFormat('d \\d\\e F Y') }}
+                        </p>
+                    </td>
 
-        <!-- COLUMNA 3: MINI IMAGEN -->
-        <td width="30%" valign="top" align="right">
-            <img src="{{ public_path('storage/' . setting('admin.decoracionheader')) }}" style="width:80px;">
-        </td>
-    </tr>
-</table>
+                    <!-- COLUMNA 3: MINI IMAGEN -->
+                    <td width="30%" valign="top" align="right">
+                        <img src="{{ public_path('storage/' . setting('admin.decoracionheader')) }}"
+                            style="width:80px;">
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <!-- CLIENTE -->
@@ -141,7 +138,7 @@
             <p><strong>Nombre:</strong> {{ $pedido->cliente->nombres }}</p>
             <div class="line"></div>
 
-            <p><strong>Teléfono:</strong> {{$pedido->cliente->telefono  }}</p>
+            <p><strong>Teléfono:</strong> {{$pedido->cliente->telefono }}</p>
             <div class="line"></div>
         </div>
 
@@ -166,42 +163,54 @@
                 @endforeach
 
                 @if ($pedido->costo_domicilio)
-                    <tr>
+                <tr>
                     <td>1</td>
                     <td>Domicilio</td>
                     <td>${{ number_format($pedido->costo_domicilio, 0, ',', '.') }}</td>
                     <td>${{ number_format($pedido->costo_domicilio, 0, ',', '.') }}</td>
                 </tr>
                 @endif
-                
+
             </tbody>
         </table>
 
         <!-- RESUMEN -->
-        <div class="resumen">
-            
+        <table width="100%" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+    <tr>
+        <!-- COLUMNA IZQUIERDA -->
+        <td width="50%" valign="top" style="text-align:left;">
+            <p><strong>Domicilio</strong></p>
+            <p>Recibe: {{ $pedido->nombre_recibe}} </p>
+            <p>whatsapp: {{ $pedido->telefono_whatsapp}}</p>
+            <p>Dirección: {{ $pedido->direccion}} </p>
+            <p>FECHA ENTREGA: {{ $pedido->fecha_entrega}} </p>
+        </td>
+
+        <!-- COLUMNA DERECHA -->
+        <td width="50%" valign="top" style="text-align:right;">
             <p class="total">
                 TOTAL: ${{ number_format($pedido->total, 0, ',', '.') }}
             </p>
-            @if ($pedido->total!=$pedido->paga_cliente)
-                 <p class="total">
-                ABONOS: ${{ number_format($pedido->paga_cliente, 0, ',', '.') }}
-            </p>
-             <p class="total">
-                SALDOS: ${{ number_format($pedido->total-$pedido->paga_cliente, 0, ',', '.') }}
-            </p>
-            @endif
-            
 
-        </div>
+            @if ($pedido->total != $pedido->paga_cliente)
+                <p class="total">
+                    ABONOS: ${{ number_format($pedido->paga_cliente, 0, ',', '.') }}
+                </p>
+                <p class="total">
+                    SALDOS: ${{ number_format($pedido->total - $pedido->paga_cliente, 0, ',', '.') }}
+                </p>
+            @endif
+        </td>
+    </tr>
+</table>
 
         <!-- FOOTER -->
         <div class="footer">
-    @if(setting('admin.decoracionfooter'))
-        <img src="{{ public_path('storage/' . setting('admin.decoracionfooter')) }}"
-             style="width:100%; display:block;">
-    @endif
-</div>
+            @if(setting('admin.decoracionfooter'))
+            <img src="{{ public_path('storage/' . setting('admin.decoracionfooter')) }}"
+                style="width:100%; display:block;">
+            @endif
+        </div>
 
     </div>
 </body>

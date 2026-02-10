@@ -20,4 +20,9 @@ class clientes extends Model
             .' - '.$this->nombres
             .' ('.$this->telefono.')';
     }
+
+        public function getCedulaNombreAttribute()
+    {
+        return $this->cedula . ' - ' . $this->nombres;
+    }
 }

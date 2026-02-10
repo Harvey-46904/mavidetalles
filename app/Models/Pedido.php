@@ -88,4 +88,14 @@ public function getDetallesArray(): array
     return is_array($detalles) ? $detalles : [];
 }
 
+public function getFechaEntregaBrowseAttribute()
+{
+    if (!$this->fecha_entrega) {
+        return 'Sin fecha';
+    }
+
+    return $this->fecha_entrega;
+}
+
+
 }

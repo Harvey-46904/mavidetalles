@@ -7,6 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Pedido;
 use App\Observers\PedidoObserver;
+use App\Models\clientes;
+use App\Observers\ClienteObserver;
+use Carbon\Carbon;
 use \App\Actions\Factura;
 use TCG\Voyager\Facades\Voyager;
 class AppServiceProvider extends ServiceProvider
@@ -28,7 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+          Carbon::setLocale('es');
         Pedido::observe(PedidoObserver::class);
+        clientes::observe(ClienteObserver::class);
         Voyager::addAction(Factura::class);
         
         if ($this->app->environment() == 'production') {
