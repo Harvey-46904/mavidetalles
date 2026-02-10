@@ -30,7 +30,7 @@ Route::get('/admin/clientesuni/{id}', function ($id) {
     return \App\Models\clientes::select('nombres', 'telefono')->findOrFail($id);
 });
 
-Route::get('/admin/pedidos/{pedido}/factura', [FacturaController::class, 'generarFactura'])->name('pedidos.factura');
+Route::get('/admin/pedidos/{pedido}/factura', [FacturaController::class, 'generarFacturaImagen'])->name('pedidos.factura');
 //Route::get('/admin/pedidos/{pedido}/estadistica', [FacturaController::class, 'descargarEstadistica'])->name('pedidos.estadistica');
 
 Route::get('/admin/finanzas/pdf', [FinanzasController::class, 'finanzasPdf'])
