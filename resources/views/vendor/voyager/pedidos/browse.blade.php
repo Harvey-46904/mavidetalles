@@ -490,11 +490,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Parse manual YYYY-MM-DD
-        const partes = texto.split("-");
-        if (partes.length !== 3) return;
+       const soloFecha = texto.split(" ")[0]; // 2026-02-09
 
-        const fecha = new Date(partes[0], partes[1] - 1, partes[2]);
-        fecha.setHours(0, 0, 0, 0);
+const partes = soloFecha.split("-");
+if (partes.length !== 3) return;
+
+const fecha = new Date(partes[0], partes[1] - 1, partes[2]);
+fecha.setHours(0, 0, 0, 0);
 
         // Hoy
         if (fecha.getTime() === hoy.getTime()) {
