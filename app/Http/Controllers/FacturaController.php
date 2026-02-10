@@ -34,8 +34,13 @@ class FacturaController extends Controller
         $pdfPath = storage_path("app/factura_{$pedido->id}.pdf");
         file_put_contents($pdfPath, $pdf->output());
         $imagick = new Imagick();
-        $imagick->setResolution(200, 200); // calidad
+        $imagick->setResolution(200, 200);
         $imagick->readImage($pdfPath);
+
+// 🔥 SOLUCIÓN FONDO NEGRO
+        $imagick->setImageBackgroundColor('white');
+        $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+
         $imagick->setImageFormat('jpeg');
         $imagick->setImageCompressionQuality(90);
 
