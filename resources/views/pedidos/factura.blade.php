@@ -179,11 +179,14 @@
     <tr>
         <!-- COLUMNA IZQUIERDA -->
         <td width="50%" valign="top" style="text-align:left;">
-            <p><strong>Domicilio</strong></p>
+                @if ($pedido->costo_domicilio)
+                <p><strong>Domicilio</strong></p>
             <p>Recibe: {{ $pedido->nombre_recibe}} </p>
             <p>whatsapp: {{ $pedido->telefono_whatsapp}}</p>
             <p>Dirección: {{ $pedido->direccion}} </p>
             <p>FECHA ENTREGA: {{ $pedido->fecha_entrega}} </p>
+                @endif
+           
         </td>
 
         <!-- COLUMNA DERECHA -->
