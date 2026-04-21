@@ -17,9 +17,9 @@ class FinanzasController extends Controller
         $numeroVentas    = $pedidos->count();
 
         return [
-            'total_facturas'   => $totalVentas - $totalDomicilios,
+            'total_facturas'   => $totalVentas ,
             'total_domicilios' => $totalDomicilios,
-            'ganancias_30'     => ($totalVentas - $totalDomicilios) * 0.30,
+            'ganancias_30'     => ($totalVentas ) * 0.30,
             'numero_ventas'    => $numeroVentas,
             'metodo'           => [
                 'Efectivo' => [
