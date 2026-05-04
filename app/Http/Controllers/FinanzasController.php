@@ -10,6 +10,7 @@ class FinanzasController extends Controller
 
     private function calcularEstadisticas($start, $end)
     {
+        $end = $end . ' 23:59:59';
         $pedidos = Pedido::whereBetween('created_at', [$start, $end])->get();
 
         $totalDomicilios = $pedidos->sum('costo_domicilio');
