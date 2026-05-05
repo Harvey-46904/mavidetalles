@@ -14,7 +14,7 @@ class FinanzasController extends Controller
         $pedidos = Pedido::whereBetween('created_at', [$start, $end])->get();
 
         $totalDomicilios = $pedidos->sum('costo_domicilio');
-        $totalVentas     = $pedidos->sum('total');
+        $totalVentas     = $pedidos->sum('total')- $totalDomicilios;
         $numeroVentas    = $pedidos->count();
 
         return [
